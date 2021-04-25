@@ -1,6 +1,12 @@
 import pygame
-import pygame.mixer 
+import pygame.mixer
+from tkinter import *
+from tkinter import messagebox as mb
+
+
 pygame.init()
+
+Tk().wm_withdraw()
 class Object(pygame.sprite.Sprite):
     def __init__(self,img,x,y,speed):
         pygame.sprite.Sprite.__init__(self)
@@ -35,7 +41,7 @@ bg=pygame.transform.scale(pygame.image.load("images/фо.jpg"), (RES))
 player1_img=pygame.transform.scale(pygame.image.load("images/player.png"), (50,50))
 player2_img=pygame.transform.scale(pygame.image.load("images/io.png"), (50,50))
 wall=pygame.transform.scale(pygame.image.load("images/wall.png"), (60,60))
-enemy_img=pygame.transform.scale(pygame.image.load("images/Techies.png"), (65,65))
+enemy_img=pygame.transform.scale(pygame.image.load("images/Techies.png"), (59,59))
 coin1_img=pygame.transform.scale(pygame.image.load("images/coin1.png"), (45,40))
 coin2_img=pygame.transform.scale(pygame.image.load("images/coin2.png"), (45,60))
 coin3_img=pygame.transform.scale(pygame.image.load("images/coin3.png"), (80,60))
@@ -107,25 +113,36 @@ wall52 = Object(wall, 480,180,0)
 wall53 = Object(wall, 540,180,0)
 wall54 = Object(wall, 480,120,0)
 wall55 = Object(wall, 480,60,0)
+wall56 = Object(wall, 420,360,0) 
+wall57 = Object(wall, 300,360,0)
+wall58 = Object(wall, 300,300,0)
+wall59 = Object(wall, 300,240,0)
+wall60 = Object(wall, 360,240,0)
+wall61 = Object(wall, 420,240,0)
+wall62 = Object(wall, 240,240,0)
+wall63 = Object(wall, 60,240,0)
+wall64 = Object(wall, 60,360,0)
+wall65 = Object(wall, 240,360,0)
+
 
 
 
 
 
 #враги
-enemy1_x=230
-enemy1_y=230
+enemy1_x=200
+enemy1_y=180
 enemy1=Object(enemy_img,enemy1_x,enemy1_y,2)
 enemy2_x=540
 enemy2_y=250
 enemy2=Object(enemy_img,enemy2_x,enemy2_y,2)
-enemy3_x=250
-enemy3_y=230
+enemy3_x=60
+enemy3_y=300
 enemy3=Object(enemy_img,enemy3_x,enemy3_y,2)
 
 #очки
-coin1_x=100
-coin1_y=100
+coin1_x=440
+coin1_y=310
 coin1=Object(coin1_img,coin1_x,coin1_y,0)
 coin2_x=250
 coin2_y=100
@@ -135,17 +152,21 @@ coin3_y=100
 coin3=Object(coin3_img,coin3_x,coin3_y,0)
 
 coins_font = pygame.font.Font(None,35)
-coins_text = coins_font.render("Монеты: 0", True , pygame.Color("black"))
+coins_text = coins_font.render("Монеты: 0", True , pygame.Color("white"))
 
 
-walls.add(wall1,wall2,wall3,wall4,wall5,wall6,wall7,wall8,wall9,wall10,wall11,wall12,wall13,wall14,wall15,wall16,wall17,wall18,wall19,wall20,wall21,wall22,wall23,wall24,wall25,wall26,wall27,wall28,wall29,wall30,wall31,wall32,wall33,wall34,wall35,wall36,wall37,wall38,wall39,wall40,wall41,wall42,wall43,wall44,wall45,wall46,wall47,wall48,wall49,wall50,wall51,wall52,wall53,wall54,wall55 )
-all_sprites.add(coin1,coin2,coin3,enemy1,enemy2,enemy3,wall1,wall2,wall3,wall4,wall5,wall6,wall7,wall8,wall9,wall10,wall11,wall12,wall13,wall14,wall15,wall16,wall17,wall18,wall19,wall20,wall21,wall22,wall23,wall24,wall25,wall26,wall27,wall28,wall29,wall30,wall31,wall32,wall33,wall34,wall35,wall36,wall37,wall38,wall39,wall40,wall41,wall42,wall43,wall44,wall45,wall46,wall47,wall48,wall49,wall50,wall51,wall52,wall53,wall54,wall55 )
+walls.add(wall1,wall2,wall3,wall4,wall5,wall6,wall7,wall8,wall9,wall10,wall11,wall12,wall13,wall14,wall15,wall16,wall17,wall18,wall19,wall20,wall21,wall22,wall23,wall24,wall25,wall26,wall27,wall28,wall29,wall30,wall31,wall32,wall33,wall34,wall35,wall36,wall37,wall38,wall39,wall40,wall41,wall42,wall43,wall44,wall45,wall46,wall47,wall48,wall49,wall50,wall51,wall52,wall53,wall54,wall55,wall56,wall57,wall58,wall59,wall60,wall61,wall62,wall63,wall64,wall65 )
+all_sprites.add(coin1,coin2,coin3,enemy1,enemy2,enemy3,wall1,wall2,wall3,wall4,wall5,wall6,wall7,wall8,wall9,wall10,wall11,wall12,wall13,wall14,wall15,wall16,wall17,wall18,wall19,wall20,wall21,wall22,wall23,wall24,wall25,wall26,wall27,wall28,wall29,wall30,wall31,wall32,wall33,wall34,wall35,wall36,wall37,wall38,wall39,wall40,wall41,wall42,wall43,wall44,wall45,wall46,wall47,wall48,wall49,wall50,wall51,wall52,wall53,wall54,wall55,wall56,wall57,wall58,wall59,wall60,wall61,wall62,wall63,wall64,wall65 )
 enemies.add(enemy1,enemy2,enemy3)
 items.add(coin1,coin2,coin3)
 
 run = True
 points=0
 while run:
+    if points == 3:
+        mb.showinfo("Информация", "Вы выйграли ") 
+        run = False 
+
     screen.blit(bg, (0,0))
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
@@ -192,11 +213,11 @@ while run:
 
     if len(pygame.sprite.pygame.sprite.spritecollide(player1, items, True)) > 0:
         points += 1
-        coins_text = coins_font.render(("Монеты: " + str(points)), True , pygame.Color("black"))
+        coins_text = coins_font.render(("Монеты: " + str(points)), True , pygame.Color("white"))
         print(point)
     if len(pygame.sprite.pygame.sprite.spritecollide(player2, items, True)) > 0:
         points += 1
-        coins_text = coins_font.render(("Монеты: " + str(points)), True , pygame.Color("black"))
+        coins_text = coins_font.render(("Монеты: " + str(points)), True , pygame.Color("white"))
         print(points)
 
     if event.type == pygame.KEYDOWN:
@@ -219,5 +240,5 @@ while run:
 
     all_sprites.draw(screen)
     all_sprites.update()
-    screen.blit(coins_text,(780,360))
+    screen.blit(coins_text,(360,20))
     pygame.display.update()
